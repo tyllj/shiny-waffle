@@ -1,0 +1,72 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "ca7293d4e26909032ec648e7b3298f85b663a9fe"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "Mandelbrot.Server/1.0.0": {
+        "dependencies": {
+          "Mandelbrot": "1.0.0",
+          "Mandelbrot.Common": "1.0.0",
+          "NETStandard.Library": "2.0.3",
+          "NUnit": "3.10.1"
+        },
+        "runtime": {
+          "Mandelbrot.Server.dll": {}
+        }
+      },
+      "NETStandard.Library/2.0.3": {},
+      "NUnit/3.10.1": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/nunit.framework.dll": {}
+        }
+      },
+      "Mandelbrot/1.0.0": {
+        "runtime": {
+          "Mandelbrot.dll": {}
+        }
+      },
+      "Mandelbrot.Common/1.0.0": {
+        "runtime": {
+          "Mandelbrot.Common.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Mandelbrot.Server/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "NUnit/3.10.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-E3ii6+VLdeIxTQ5gPjk/7g/xl+aCifbfcIkiGayZCuos+22FEdtKGrxMe6SzoXCQCcL7gdqhfNIFTaZ1+dS18g==",
+      "path": "nunit/3.10.1",
+      "hashPath": "nunit.3.10.1.nupkg.sha512"
+    },
+    "Mandelbrot/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Mandelbrot.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

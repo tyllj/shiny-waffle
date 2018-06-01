@@ -1,0 +1,8 @@
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/bin/Debug/netstandard2.0/Mandelbrot.deps.json
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/bin/Debug/netstandard2.0/Mandelbrot.dll
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/bin/Debug/netstandard2.0/Mandelbrot.pdb
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/obj/Debug/netstandard2.0/Mandelbrot.csproj.CoreCompileInputs.cache
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/obj/Debug/netstandard2.0/Mandelbrot.AssemblyInfoInputs.cache
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/obj/Debug/netstandard2.0/Mandelbrot.AssemblyInfo.cs
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/obj/Debug/netstandard2.0/Mandelbrot.dll
+/media/tyll/personal/DEV/Mandelbrot/Mandelbrot/obj/Debug/netstandard2.0/Mandelbrot.pdb
