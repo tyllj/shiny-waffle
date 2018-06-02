@@ -18,7 +18,7 @@ namespace Mandelbrot.Offline {
             data.AddRange(
                 intGrid.SelectMany(
                 rows => rows.Select(v => v == -1 ? (byte) 0
-                                                 : (byte)((double) v / valueScale * PGM_MAXVALUE))));
+                                                 : (byte)(PGM_MAXVALUE - (double) v / valueScale * PGM_MAXVALUE))));
             return data.ToArray();
         }
     }
