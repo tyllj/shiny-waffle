@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using Mandelbrot.Server;
+using Mandelbrot.Distributed.Server;
 using NUnit.Framework;
-
 namespace Mandelbrot.Test
 {
     [TestFixture]
@@ -73,7 +72,7 @@ namespace Mandelbrot.Test
             //stream.Read(buffer, 0, 52);
             var buffer = stream.GetBuffer();
             
-            var request = Request.ParseFromBytes(buffer);
+            var request = RequestSerializer.Deserialize(buffer);
             Assert.AreEqual(id, request.Id);
             Assert.AreEqual(iCenterPos, request.ImaginaryCenter);
             Assert.AreEqual(rCenterPos, request.RealCenter);

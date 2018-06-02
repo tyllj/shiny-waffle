@@ -1,16 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Server", "Mandelbrot.Server\Mandelbrot.Server.csproj", "{02905A36-8F57-45B2-B551-F7ECD9944938}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Distributed.Server", "Mandelbrot.Distributed.Server\Mandelbrot.Distributed.Server.csproj", "{02905A36-8F57-45B2-B551-F7ECD9944938}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot", "Mandelbrot\Mandelbrot.csproj", "{42D84F60-7274-4F1A-9DB6-74FCAF5CEE1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Client", "Mandelbrot.Client\Mandelbrot.Client.csproj", "{9FF7C364-EE7B-4B85-B03F-16C675CA360B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Distributed.Client", "Mandelbrot.Distributed.Client\Mandelbrot.Distributed.Client.csproj", "{9FF7C364-EE7B-4B85-B03F-16C675CA360B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Common", "Mandelbrot.Common\Mandelbrot.Common.csproj", "{FA57544B-A145-45BB-96C1-6D5BAD837085}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Test", "Mandelbrot.Test\Mandelbrot.Test.csproj", "{6CC377C5-19C7-420E-B159-FB86F1877057}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Offline", "Mandelbrot.Offline\Mandelbrot.Offline.csproj", "{E38EFA0C-233A-4994-8CAB-E2F9D8C9F51E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Distributed.Client.Gtk", "Mandelbrot.Distributed.Client.Gtk\Mandelbrot.Distributed.Client.Gtk.csproj", "{C2406877-E101-4051-83B1-CEF0857736EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Distributed", "Mandelbrot.Distributed\Mandelbrot.Distributed.csproj", "{897CB6CD-5624-46F8-B28D-3552B39152C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +46,13 @@ Global
 		{E38EFA0C-233A-4994-8CAB-E2F9D8C9F51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E38EFA0C-233A-4994-8CAB-E2F9D8C9F51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E38EFA0C-233A-4994-8CAB-E2F9D8C9F51E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2406877-E101-4051-83B1-CEF0857736EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2406877-E101-4051-83B1-CEF0857736EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2406877-E101-4051-83B1-CEF0857736EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2406877-E101-4051-83B1-CEF0857736EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{897CB6CD-5624-46F8-B28D-3552B39152C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897CB6CD-5624-46F8-B28D-3552B39152C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897CB6CD-5624-46F8-B28D-3552B39152C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897CB6CD-5624-46F8-B28D-3552B39152C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

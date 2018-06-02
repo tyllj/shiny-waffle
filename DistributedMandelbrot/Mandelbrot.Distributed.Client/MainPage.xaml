@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage x:Class="Mandelbrot.Distributed.Client.MainPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:a="clr-namespace:Xamarin.Forms.Alias;assembly=Xamarin.Forms.Alias"
+             Padding="10"
+             Title="Mandelbrot Plotter">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <a:StackPanel Grid.Row="0"
+                      Orientation="Horizontal">
+            <a:StackPanel.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="View" ApplyToDerivedTypes="True">
+                        <Setter Property="VerticalOptions" Value="Center" />
+                    </Style>
+                </ResourceDictionary>
+            </a:StackPanel.Resources>
+            <a:TextBlock Text="Height:" VerticalOptions="Center"/>
+            <a:TextBox VerticalOptions="Center"/>
+            <a:TextBlock Text="Width:" VerticalOptions="Center"/>
+            <a:TextBox VerticalOptions="Center"/>
+            <a:Button Text="Render" VerticalOptions="Center" Command="{Binding RenderCommand}"/>
+        </a:StackPanel>
+    </Grid>
+</ContentPage>

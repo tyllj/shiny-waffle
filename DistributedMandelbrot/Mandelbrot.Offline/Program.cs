@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Mandelbrot.Common;
 
 namespace Mandelbrot.Offline
@@ -14,7 +15,7 @@ namespace Mandelbrot.Offline
             Log.Info($"Converting to portable gray map...");
             var fractalGrayMap = BitmapFormatter.GeneratePortableGraymap(fractalArray, 85);
             Log.Info($"Writing to file...");
-            using (var fs = new FileStream(args[1], FileMode.Create))
+            using (var fs = new FileStream(args[Array.IndexOf(args, "-o") + 1], FileMode.Create))
             {
                 using (var bw = new BinaryWriter(fs))
                 {

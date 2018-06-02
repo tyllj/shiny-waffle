@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.2</LangVersion>
+    <AssemblyName>Mandelbrot.Distributed.Client</AssemblyName>
+    <RootNamespace>Mandelbrot.Distributed.Client</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="3.1.0.469394-pre1" />
+    <PackageReference Include="Xamarin.Forms.Alias" Version="2.5.1.87875" />
+    <PackageReference Include="Xamarin.Forms.Platform.GTK" Version="3.1.0.469394-pre1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mandelbrot.Common\Mandelbrot.Common.csproj" />
+    <ProjectReference Include="..\Mandelbrot.Distributed\Mandelbrot.Distributed.csproj" />
+  </ItemGroup>
+</Project>

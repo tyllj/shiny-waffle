@@ -17,14 +17,11 @@ namespace Mandelbrot
                 z = z * z + c;
                 if (z > magnitudeThreshold)
                 {
-                    break;
+                    return i;
                 }
             }
-            if (z <= magnitudeThreshold)
-            {
-                return -1;
-            }
-            return i;
+            return -1;
+            
         }
 
         public int[][] DrawFractal(
