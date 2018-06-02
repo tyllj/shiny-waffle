@@ -44,6 +44,9 @@ namespace Mandelbrot.Distributed.Server
         public double RealLowerBound => RealCenter - Width / 2;
         public double ImaginaryLowerBound => ImaginaryCenter - Height / 2;
         
+        public int WidthPixels => (int)Math.Ceiling(Width * (1.0/ Resolution));
+        public int HeightPixels => (int)Math.Ceiling(Height * (1.0 / Resolution));
+        
         #endregion
         
 

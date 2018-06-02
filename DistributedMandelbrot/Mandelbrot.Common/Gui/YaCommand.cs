@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace Mandelbrot.Common.Gui
 {
+    /// <summary>
+    /// Yet another command implementation.
+    /// </summary>
     public class YaCommand : ICommand
     {
         private Func<object, bool> _canExecute;
