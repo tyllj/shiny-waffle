@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Mandelbrot.Common;
 
 namespace Mandelbrot.Server
@@ -25,7 +21,7 @@ namespace Mandelbrot.Server
         private static async Task Main(string[] args)
         {
             Bootstrap(args);
-            _clientManager.ClientAquired += async (sender, client) => await _requestProcessor.ServeNewClient(client);
+            _clientManager.ClientAquired += async (sender, client) => await _requestProcessor.ServeClient(client);
             
             Log.Info("Server is starting, press Ctrl+C to terminate.");
             await _clientManager.Listen();

@@ -1,24 +1,26 @@
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Mandelbrot 
 {
     public class MandelbrotProcessor
     {
-        private int PointConverges(ComplexDouble c, Double MagnitudeThreshold, int MaxIterations)
+        /// <summary>
+        /// Returns -1 if sequence zn+1=zn²+c where z0 = 0
+        /// </summary>
+        private int PointConverges(ComplexDouble c, Double magnitudeThreshold, int maxIterations)
         {
-            
-            ComplexDouble z = c;
+            ComplexDouble z = ComplexDouble.Zero; 
             int i;
-            for (i = 0; i <= MaxIterations; i++)
+            for (i = maxIterations; i > 0; i--)
             {
                 z = z * z + c;
-                if (z > MagnitudeThreshold)
+                if (z > magnitudeThreshold)
                 {
                     break;
                 }
             }
-            if (z <= MagnitudeThreshold)
+            if (z <= magnitudeThreshold)
             {
                 return -1;
             }
@@ -30,15 +32,21 @@ namespace Mandelbrot
             var xDots = (int)Math.Ceiling(rDistance*dotsPerUnit);
             var increment = 1/dotsPerUnit;
             var yValues = new int[yDots][];
-            for (var y = 0; y < yDots; y++) {
+            Parallel.For(0, yDots, y =>
+            //for (var y = 0; y < yDots; y++) 
+            {
                 var xValues = new int[xDots];
-                for (var x = 0; x < xDots; x++){
-                    var r = rLowerBound + x*increment;
-                    var i = iLowerBound + y*increment;
-                    xValues[x] = PointConverges(new ComplexDouble(r,i),2,85);
-                }
-                yValues[y]=xValues;
-            }
+                Parallel.For(0, xDots, x => 
+                //for (var x = 0; x < xDots; x++)
+                {
+                    var r = rLowerBound + x * increment;
+                    var i = iLowerBound + y * increment;
+                    xValues[x] = PointConverges(new ComplexDouble(r, i), 2, 85);
+                });
+
+                yValues[y] = xValues;
+            });
+            
             return yValues;
         }        
     }

@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mandelbrot.Server
 {
     public class ClientManager
     {
+        #region Private Fields
+        
         private TcpListener _listener;
-
         private List<Client> _clients;
+        
+        #endregion
+        
+        #region Constructors
         
         public ClientManager(int port)
         {
@@ -20,6 +23,14 @@ namespace Mandelbrot.Server
             _clients = new List<Client>();
         }
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Accepts incomming client connections and invokes assigned handlers.
+        /// </summary>
+        /// <returns></returns>
         public async Task Listen()
         {
             _listener.Start();
@@ -30,6 +41,10 @@ namespace Mandelbrot.Server
                 ClientAquired?.Invoke(this, mandelbrotClient);
             }      
         }
+
+        #endregion
+        
+        #region Non-public Methods
         
         private async Task<Client> AquireNext()
         {
@@ -37,6 +52,12 @@ namespace Mandelbrot.Server
             return new Client(tcpClient);
         }
 
+        #endregion
+        
+        #region Events
+        
         public event EventHandler<Client> ClientAquired;
+        
+        #endregion
     }
 }

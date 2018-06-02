@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Mandelbrot.Server
 {
     public class Request
-    {      
-        public Client Client { get; set; }
-        public int Id { get; }
-        public double RealCenter { get; }
-        public double ImaginaryCenter { get; }
-        public double Width { get; }
-        public double Height { get; }
-        public double Resolution { get; }
-        public int MaxIterations { get; }
-        public int MaxMagnitude { get; }
-
-        public double RealLowerBound => RealCenter - Width / 2;
-        public double ImaginaryLowerBound => ImaginaryCenter - Height / 2;
+    {
+        #region Constructors
 
         public Request(
             int id,
@@ -38,6 +25,27 @@ namespace Mandelbrot.Server
             MaxIterations = maxIterations;
             MaxMagnitude = maxMagnitude;
         }
+
+        #endregion
+
+        #region Properties
+        
+        public Client Client { get; set; }
+        public int Id { get; }
+        public double RealCenter { get; }
+        public double ImaginaryCenter { get; }
+        public double Width { get; }
+        public double Height { get; }
+        public double Resolution { get; }
+        public int MaxIterations { get; }
+        public int MaxMagnitude { get; }
+
+        public double RealLowerBound => RealCenter - Width / 2;
+        public double ImaginaryLowerBound => ImaginaryCenter - Height / 2;
+        
+        #endregion
+        
+        #region Public Methods
         
         public static Request ParseFromBytes(byte[] buffer)
         {
@@ -61,5 +69,7 @@ namespace Mandelbrot.Server
                 maxMagnitude
             );
         }
+        
+        #endregion
     }
 }

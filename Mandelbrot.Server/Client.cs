@@ -1,42 +1,48 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 namespace Mandelbrot.Server
 {
     public class Client
     {
-        private readonly TcpClient _tcpClient;
+        #region Private Fields
 
+        private readonly TcpClient _tcpClient;
+        private readonly NetworkStream _networkStream;
+        private readonly BinaryWriter _writer;
+
+        #endregion
+
+        #region Constructors
+        
         public Client(TcpClient client)
         {
             _tcpClient = client;
             _networkStream = _tcpClient.GetStream();
             _writer = new BinaryWriter(_networkStream);
         }
+        
+        #endregion
 
-        private NetworkStream _networkStream;
-
-        private BinaryWriter _writer;
+        #region Properties
 
         public string Host => _tcpClient.Client.RemoteEndPoint.ToString();
+        public bool IsAvailable => _tcpClient.Connected;
+        #endregion
+        
+        #region Public Methods
         
         public async Task<Request> ReadRequest()
         {
             var buffer = new Byte[52];
-            try
-            {
-                await _tcpClient.GetStream().ReadAsync(buffer, 0, 52);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Debugger.Break();
-            }
 
+            await _tcpClient.GetStream().ReadAsync(buffer, 0, 52);
+            if (!IsAvailable)
+            {
+                throw new IOException("Connection was closed unexpectedly.");
+            }
             var request = Request.ParseFromBytes(buffer);
             request.Client = this;
             return request;
@@ -52,5 +58,7 @@ namespace Mandelbrot.Server
             });
             
         }
+        
+        #endregion
     }
 }
