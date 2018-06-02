@@ -10,7 +10,7 @@ namespace Mandelbrot.Offline
             Log.Info($"Application started with args: {string.Join(',', args)}");
             var mandelbrot = new MandelbrotProcessor();
             Log.Info($"Calculating mandelbrot set...");
-            var fractalArray = mandelbrot.DrawFractal(-2, 3, -1, 2, 1000);
+            var fractalArray = mandelbrot.DrawFractal(-2, 3, -1, 2, 1000, 2, 85);
             Log.Info($"Converting to portable gray map...");
             var fractalGrayMap = BitmapFormatter.GeneratePortableGraymap(fractalArray, 85);
             Log.Info($"Writing to file...");

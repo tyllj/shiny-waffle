@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Mandelbrot.Common;
 
 namespace Mandelbrot.Server
 {
@@ -29,7 +31,7 @@ namespace Mandelbrot.Server
         #region Properties
 
         public string Host => _tcpClient.Client.RemoteEndPoint.ToString();
-        public bool IsAvailable => _tcpClient.Connected;
+        public bool IsAvailable => _tcpClient.GetState() == TcpState.Established;
         #endregion
         
         #region Public Methods
@@ -39,7 +41,7 @@ namespace Mandelbrot.Server
             var buffer = new Byte[52];
 
             await _tcpClient.GetStream().ReadAsync(buffer, 0, 52);
-            if (!IsAvailable)
+            if (!IsAvailable) // NetworkStream reads zero for closed connections.
             {
                 throw new IOException("Connection was closed unexpectedly.");
             }

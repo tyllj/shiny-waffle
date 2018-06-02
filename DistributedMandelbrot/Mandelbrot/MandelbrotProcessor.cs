@@ -8,7 +8,7 @@ namespace Mandelbrot
         /// <summary>
         /// Returns -1 if sequence zn+1=zn²+c where z0 = 0
         /// </summary>
-        private int PointConverges(ComplexDouble c, Double magnitudeThreshold, int maxIterations)
+        private int PointConverges(ComplexDouble c, double magnitudeThreshold, int maxIterations)
         {
             ComplexDouble z = ComplexDouble.Zero; 
             int i;
@@ -27,7 +27,15 @@ namespace Mandelbrot
             return i;
         }
 
-        public int[][] DrawFractal(double rLowerBound, double rDistance, double iLowerBound, double iDistance, double dotsPerUnit){
+        public int[][] DrawFractal(
+            double rLowerBound,
+            double rDistance,
+            double iLowerBound,
+            double iDistance,
+            double dotsPerUnit,
+            double magnitureThreshold,
+            int maxIterations)
+        {
             var yDots = (int)Math.Ceiling(iDistance*dotsPerUnit);
             var xDots = (int)Math.Ceiling(rDistance*dotsPerUnit);
             var increment = 1/dotsPerUnit;
@@ -41,7 +49,7 @@ namespace Mandelbrot
                 {
                     var r = rLowerBound + x * increment;
                     var i = iLowerBound + y * increment;
-                    xValues[x] = PointConverges(new ComplexDouble(r, i), 2, 85);
+                    xValues[x] = PointConverges(new ComplexDouble(r, i), magnitureThreshold, maxIterations);
                 });
 
                 yValues[y] = xValues;
