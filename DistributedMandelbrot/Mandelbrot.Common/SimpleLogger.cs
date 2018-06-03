@@ -9,6 +9,11 @@ namespace Mandelbrot.Common
             Console.WriteLine($"[Info]  {DateTime.Now.ToShortTimeString()} - {message}");
         }
         
+        public static void Debug(string message)
+        {
+            Console.WriteLine($"[Debug]  {DateTime.Now.ToShortTimeString()} - {message}");
+        }
+        
         public static void Warn(string message)
         {
             Console.WriteLine($"[Warn]  {DateTime.Now.ToShortTimeString()} - {message}");

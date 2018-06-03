@@ -45,7 +45,7 @@ namespace Mandelbrot.Distributed.Server
         public bool IsAvailable
         {
             get { var state = _tcpClient.GetState();
-                Log.Info($"OS connection state for {Host} is {state}");
+                Log.Debug($"OS connection state for {Host} is {state}");
                 return state == TcpState.Established; }
         }
 

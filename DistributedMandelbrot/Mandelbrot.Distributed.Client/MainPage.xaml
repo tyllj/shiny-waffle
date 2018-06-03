@@ -13,35 +13,26 @@
     </ContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <a:StackPanel Grid.Row="0"
-                      Orientation="Horizontal">
-            <a:StackPanel.Resources>
-                <ResourceDictionary>
-                    <Style TargetType="View" ApplyToDerivedTypes="True">
-                        <Setter Property="VerticalOptions" Value="Center" />
-                    </Style>
-                    <Style TargetType="a:Button" ApplyToDerivedTypes="True">
-                        <Setter Property="WidthRequest" Value="60" />
-                    </Style>
-                </ResourceDictionary>
-            </a:StackPanel.Resources>
-            <a:TextBlock Text="CenterX:" VerticalOptions="Center"/>
-            <a:TextBox Text="{Binding CenterX}" VerticalOptions="Center"/>
-            <a:TextBlock Text="CenterY:" VerticalOptions="Center"/>
-            <a:TextBox Text="{Binding CenterY}" VerticalOptions="Center" />
-            <a:TextBlock Text="DistanceX:" VerticalOptions="Center"/>
-            <a:TextBox Text="{Binding DistanceX}" VerticalOptions="Center"/>
-            <a:TextBlock Text="DistanceY:" VerticalOptions="Center" />
-            <a:TextBox Text="{Binding DistanceY}" VerticalOptions="Center" />
-            <a:TextBlock Text="Treshold:" VerticalOptions="Center" />
-            <a:TextBox Text="{Binding Threshold}" VerticalOptions="Center" />
-            <a:TextBlock Text="MaxIterations:" VerticalOptions="Center"/>
-            <a:TextBox Text="{Binding MaxIterations}" VerticalOptions="Center" />
-            <a:Button Text="Render" VerticalOptions="Center" Command="{Binding RenderCommand}"/>
-        </a:StackPanel>
+        <FlexLayout Grid.Row="0"
+                      Wrap="Wrap" AlignItems="Center" AlignSelf="Start" AlignContent="Start"  Direction="Row" >
+
+            <a:TextBlock Text="CenterX:" />
+            <a:TextBox Text="{Binding CenterX}"/>
+            <a:TextBlock Text="CenterY:" />
+            <a:TextBox Text="{Binding CenterY}"  />
+            <a:TextBlock Text="DistanceX:" />
+            <a:TextBox Text="{Binding DistanceX}" />
+            <a:TextBlock Text="DistanceY:"  />
+            <a:TextBox Text="{Binding DistanceY}"  />
+            <a:TextBlock Text="Treshold:"  />
+            <a:TextBox Text="{Binding Threshold}"  />
+            <a:TextBlock Text="MaxIterations:" />
+            <a:TextBox Text="{Binding MaxIterations}"  />
+            <a:Button Text="Render"  Command="{Binding RenderCommand}"/>
+        </FlexLayout>
         <Image Grid.Row="1" Source="{Binding PlotBitmapSource}" x:Name="_image"/>
     </Grid>
 </ContentPage>

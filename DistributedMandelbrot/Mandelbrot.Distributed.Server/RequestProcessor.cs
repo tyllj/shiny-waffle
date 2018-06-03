@@ -21,14 +21,17 @@ namespace Mandelbrot.Distributed.Server
         /// </summary>
         public async Task ServeClient(Client client)
         {
-            while (client.EndPoint.IsAvailable)
+            //while (client.EndPoint.IsAvailable) // There _is_ no reliable way to check the status of a tcp connection.
+                                                  // This is kept for debugging purpurse
+            for (;;)
             {
                 try
                 {
                     await ProcessNextRequest(client);
                 }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException e)
                 {
+                    Log.Warn($"Stop listining due to cancel signal: {e.GetType().FullName} - {e.Message}");
                     break;
                 }
             }
@@ -37,24 +40,23 @@ namespace Mandelbrot.Distributed.Server
 
         private async Task ProcessNextRequest(Client client)
         {
-            Log.Info($"Client connected: {client.EndPoint.Host}.");
-            Log.Info("Awaiting request message...");
+            Log.Info($"Awaiting request message from {client.EndPoint.Host}.");
             Request request;
             try
             {
                 request = await client.ReadRequest();
             }
-            catch (ObjectDisposedException)
+            catch (ObjectDisposedException e)
             {
-                throw new OperationCanceledException();
+                throw new OperationCanceledException(e.Message, e);
             }
-            catch (IOException)
+            catch (IOException e)
             {
-                throw new OperationCanceledException();
+                throw new OperationCanceledException(e.Message, e);
             }
-            catch (InvalidDataException)
+            catch (InvalidDataException e)
             {
-                throw new OperationCanceledException();
+                throw new OperationCanceledException(e.Message, e);
             }
             
             Log.Info("Request received.");
