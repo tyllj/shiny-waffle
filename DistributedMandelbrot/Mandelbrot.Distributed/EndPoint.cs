@@ -27,11 +27,11 @@ namespace Mandelbrot.Distributed.Server
 
         public static EndPoint Connect(string host, int port)
         {
-            var instance = new EndPoint(new TcpClient());
-            instance._tcpClient.Connect(host, port);
-            return instance;
+            var tcpClient = new TcpClient();
+            tcpClient.Connect(host, port);
+            return new EndPoint(tcpClient);
         }
-        
+      
         public EndPoint(TcpClient tcpClient)
         {
             _tcpClient = tcpClient;
@@ -40,7 +40,12 @@ namespace Mandelbrot.Distributed.Server
         }
 
         public string Host => _tcpClient.Client.RemoteEndPoint.ToString();
-        public bool IsAvailable => _tcpClient.GetState() == TcpState.Established;
+        public bool IsAvailable
+        {
+            get { var state = _tcpClient.GetState();
+                Log.Info($"Connection state is {state}");
+                return state == TcpState.Established; }
+        }
 
         public virtual async Task Send(dynamic data)
         {
@@ -49,15 +54,16 @@ namespace Mandelbrot.Distributed.Server
                 _writer.Write(data);
                 _writer.Flush();
             });
+            if (IsAvailable);
         }
 
         public virtual async Task<byte[]> Receive(int count = 1)
         {
             var buffer = new byte[count];
             await _stream.ReadAsync(buffer, 0, count);
-            if (!IsAvailable) // NetworkStream reads zero for closed connections.
+            //if (!IsAvailable) // NetworkStream reads zero for closed connections.
             {
-                throw new IOException("Connection was closed unexpectedly.");
+            //    throw new IOException("Connection was closed unexpectedly.");
             }
             return buffer;
         } 

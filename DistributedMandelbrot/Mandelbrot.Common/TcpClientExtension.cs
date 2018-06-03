@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
@@ -8,8 +9,9 @@ namespace Mandelbrot.Common
     {
         public static TcpState GetState(this TcpClient tcpClient)
         {
-            var tcpConnection = IPGlobalProperties.GetIPGlobalProperties()
-                .GetActiveTcpConnections()
+            var tcpConnections = IPGlobalProperties.GetIPGlobalProperties()
+                .GetActiveTcpConnections();
+            var tcpConnection = tcpConnections
                 .FirstOrDefault(x => x.LocalEndPoint.Equals(tcpClient.Client.LocalEndPoint));
             return tcpConnection?.State ?? TcpState.Unknown;
         }

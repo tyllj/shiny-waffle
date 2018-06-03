@@ -43,7 +43,9 @@ namespace Mandelbrot.Distributed.Server
                     binaryWriter.Write(request.Resolution);
                     binaryWriter.Write(request.MaxIterations);
                     binaryWriter.Write(request.MaxMagnitude);
+                    binaryWriter.Flush();
                 }
+                memoryStream.GetBuffer().CopyTo(buffer, 0);
             }
 
             return buffer;

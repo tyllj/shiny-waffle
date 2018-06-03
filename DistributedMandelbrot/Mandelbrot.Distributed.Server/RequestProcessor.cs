@@ -49,7 +49,8 @@ namespace Mandelbrot.Distributed.Server
                 request.RealLowerBound,
                 request.Width,
                 request.ImaginaryLowerBound,
-                request.Height, 1 / request.Resolution,
+                request.Height,
+                1 / request.Resolution,
                 request.MaxMagnitude,
                 request.MaxIterations));
 

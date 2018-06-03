@@ -3,8 +3,14 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:a="clr-namespace:Xamarin.Forms.Alias;assembly=Xamarin.Forms.Alias"
+             xmlns:styleSheets="clr-namespace:Xamarin.Forms.StyleSheets;assembly=Xamarin.Forms.Core"
              Padding="10"
              Title="Mandelbrot Plotter">
+    <ContentPage.Resources>
+        <!-- ReSharper disable Xaml.RedundantResource -->
+        <x:StyleSheetExtension Source="/style.css"/>
+        <!-- ReSharper restore Xaml.RedundantResource -->
+    </ContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,13 +23,25 @@
                     <Style TargetType="View" ApplyToDerivedTypes="True">
                         <Setter Property="VerticalOptions" Value="Center" />
                     </Style>
+                    <Style TargetType="a:Button" ApplyToDerivedTypes="True">
+                        <Setter Property="WidthRequest" Value="60" />
+                    </Style>
                 </ResourceDictionary>
             </a:StackPanel.Resources>
-            <a:TextBlock Text="Height:" VerticalOptions="Center"/>
-            <a:TextBox VerticalOptions="Center"/>
-            <a:TextBlock Text="Width:" VerticalOptions="Center"/>
-            <a:TextBox VerticalOptions="Center"/>
+            <a:TextBlock Text="CenterX:" VerticalOptions="Center"/>
+            <a:TextBox Text="{Binding CenterX}" VerticalOptions="Center"/>
+            <a:TextBlock Text="CenterY:" VerticalOptions="Center"/>
+            <a:TextBox Text="{Binding CenterY}" VerticalOptions="Center" />
+            <a:TextBlock Text="DistanceX:" VerticalOptions="Center"/>
+            <a:TextBox Text="{Binding DistanceX}" VerticalOptions="Center"/>
+            <a:TextBlock Text="DistanceY:" VerticalOptions="Center" />
+            <a:TextBox Text="{Binding DistanceY}" VerticalOptions="Center" />
+            <a:TextBlock Text="Treshold:" VerticalOptions="Center" />
+            <a:TextBox Text="{Binding Threshold}" VerticalOptions="Center" />
+            <a:TextBlock Text="MaxIterations:" VerticalOptions="Center"/>
+            <a:TextBox Text="{Binding MaxIterations}" VerticalOptions="Center" />
             <a:Button Text="Render" VerticalOptions="Center" Command="{Binding RenderCommand}"/>
         </a:StackPanel>
+        <Image Grid.Row="1" Source="{Binding PlotBitmapSource}" x:Name="_image"/>
     </Grid>
 </ContentPage>
