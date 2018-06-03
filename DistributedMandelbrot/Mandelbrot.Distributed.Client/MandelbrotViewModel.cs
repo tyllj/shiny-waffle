@@ -32,12 +32,53 @@ namespace Mandelbrot.Distributed.Client
         public MandelbrotViewModel()
         {
             RenderCommand = new YaCommand(async _ => await AquireAndPresentMandelbrotSet());
-            _plotBitmapSource = ImageSource.FromStream(() => ProvideBitmap());
         }
 
+        
+
+        #endregion
+        
+        #region Properties
+
+        [UsedImplicitly]
+        public string Host { get; set; } = "localhost";
+
+        [UsedImplicitly]
+        public int Port { get; set; } = 5555;
+        
+        [UsedImplicitly]
+        public double CenterX { get; set; } = -.5;
+
+        [UsedImplicitly]
+        public double CenterY { get; set; } = 0.0;
+
+        [UsedImplicitly]
+        public double DistanceX { get; set; } = 3;
+
+        [UsedImplicitly]
+        public double DistanceY { get; set; } = 2;
+        
+        [UsedImplicitly]
+        public double Resolution { get; set; } = .01;
+        
+        [UsedImplicitly]
+        public int Threshold { get; set; } = 2;
+        
+        [UsedImplicitly]
+        public int MaxIterations { get; set; } = 85;
+        
+        #endregion
+        
+        #region Commands
+        
+        public ICommand RenderCommand { get; }
+        
+        #endregion
+
+        #region Public Methods
+       
         public Stream ProvideBitmap()
         {
-            
             var stream = new MemoryStream();
 
             if (_cachedData != null)
@@ -66,39 +107,7 @@ namespace Mandelbrot.Distributed.Client
 
             return stream;
         }
-
-        #endregion
         
-        #region Public Properties
-
-        public ImageSource PlotBitmapSource => _plotBitmapSource;
-
-        public double CenterX { get; set; } = -0.5;
-
-        public double CenterY { get; set; } = 0.0;
-
-        public double DistanceX { get; set; } = 3;
-
-        public double DistanceY { get; set; } = 2;
-        
-        public double Resolution { get; set; } = .01;
-
-        public int Threshold { get; set; } = 2;
-
-        public int MaxIterations { get; set; } = 85;
-        
-        #endregion
-        
-        #region Commands
-        
-        public ICommand RenderCommand { get; }
-        
-        #endregion
-
-        #region Public Methods
-
-        
-
         #endregion
 
         #region Non-Public Methods
@@ -128,12 +137,12 @@ namespace Mandelbrot.Distributed.Client
                 Log.Error(e.ToString());
                 Debugger.Break();
             }
-            ImageLoaded?.Invoke(this, EventArgs.Empty);
+            ResultReady?.Invoke(this, EventArgs.Empty);
         } 
 
         #endregion
 
-        public event EventHandler ImageLoaded;
+        public event EventHandler ResultReady;
         
         public event PropertyChangedEventHandler PropertyChanged;
 

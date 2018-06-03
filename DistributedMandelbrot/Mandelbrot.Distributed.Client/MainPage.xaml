@@ -3,7 +3,6 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:a="clr-namespace:Xamarin.Forms.Alias;assembly=Xamarin.Forms.Alias"
-             xmlns:styleSheets="clr-namespace:Xamarin.Forms.StyleSheets;assembly=Xamarin.Forms.Core"
              Padding="10"
              Title="Mandelbrot Plotter">
     <ContentPage.Resources>
@@ -16,9 +15,13 @@
             <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <FlexLayout Grid.Row="0"
-                      Wrap="Wrap" AlignItems="Center" AlignSelf="Start" AlignContent="Start"  Direction="Row" >
-
+        <FlexLayout
+            Grid.Row="0"
+            Wrap="Wrap"
+            AlignItems="Center"
+            AlignSelf="Start"
+            AlignContent="Start">
+            
             <a:TextBlock Text="CenterX:" />
             <a:TextBox Text="{Binding CenterX}"/>
             <a:TextBlock Text="CenterY:" />
@@ -33,6 +36,6 @@
             <a:TextBox Text="{Binding MaxIterations}"  />
             <a:Button Text="Render"  Command="{Binding RenderCommand}"/>
         </FlexLayout>
-        <Image Grid.Row="1" Source="{Binding PlotBitmapSource}" x:Name="_image"/>
+        <Image Grid.Row="1" x:Name="_resultView"/>
     </Grid>
 </ContentPage>

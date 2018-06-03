@@ -45,7 +45,7 @@ namespace Mandelbrot.Test
         }
 
         [Test]
-        public void SerializeDeserializeTest()
+        public void DeserializeTest()
         {
             var id = 3;
             var rCenterPos = -0.15;
