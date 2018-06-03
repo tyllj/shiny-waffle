@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Mandelbrot.Common;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 
 namespace Mandelbrot.Distributed.Client

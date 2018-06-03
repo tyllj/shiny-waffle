@@ -21,7 +21,10 @@
             AlignItems="Center"
             AlignSelf="Start"
             AlignContent="Start">
-            
+            <a:TextBlock Text="Host:"/>
+            <a:TextBox Text="{Binding Host}"/>
+            <a:TextBlock Text="Port:"/>
+            <a:TextBox Text="{Binding Port}"/>
             <a:TextBlock Text="CenterX:" />
             <a:TextBox Text="{Binding CenterX}"/>
             <a:TextBlock Text="CenterY:" />
@@ -30,6 +33,8 @@
             <a:TextBox Text="{Binding DistanceX}" />
             <a:TextBlock Text="DistanceY:"  />
             <a:TextBox Text="{Binding DistanceY}"  />
+            <a:TextBlock Text="Res:" />
+            <a:TextBox Text="{Binding Resolution}"  />
             <a:TextBlock Text="Treshold:"  />
             <a:TextBox Text="{Binding Threshold}"  />
             <a:TextBlock Text="MaxIterations:" />

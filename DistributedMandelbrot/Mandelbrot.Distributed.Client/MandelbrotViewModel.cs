@@ -33,9 +33,7 @@ namespace Mandelbrot.Distributed.Client
         {
             RenderCommand = new YaCommand(async _ => await AquireAndPresentMandelbrotSet());
         }
-
         
-
         #endregion
         
         #region Properties
@@ -115,7 +113,7 @@ namespace Mandelbrot.Distributed.Client
         private async Task AquireAndPresentMandelbrotSet()
         {
             if (_server == null)
-                _server = new Server("127.0.0.1", 5555);
+                _server = new Server(Host, Port);
             
             var request = new Request(
                 _random.Next(),
