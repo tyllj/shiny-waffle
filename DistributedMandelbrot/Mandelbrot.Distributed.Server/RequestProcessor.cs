@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,11 +27,7 @@ namespace Mandelbrot.Distributed.Server
                 {
                     await ProcessNextRequest(client);
                 }
-                catch (ObjectDisposedException e)
-                {
-                    break;
-                }
-                catch (IOException e)
+                catch (OperationCanceledException)
                 {
                     break;
                 }
@@ -42,9 +39,27 @@ namespace Mandelbrot.Distributed.Server
         {
             Log.Info($"Client connected: {client.EndPoint.Host}.");
             Log.Info("Awaiting request message...");
-            var request = await client.ReadRequest();
-
+            Request request;
+            try
+            {
+                request = await client.ReadRequest();
+            }
+            catch (ObjectDisposedException)
+            {
+                throw new OperationCanceledException();
+            }
+            catch (IOException)
+            {
+                throw new OperationCanceledException();
+            }
+            catch (InvalidDataException)
+            {
+                throw new OperationCanceledException();
+            }
+            
             Log.Info("Request received.");
+
+            var stopwatch = Stopwatch.StartNew();
             var fractal = await Task.Run(() => _mandelbrotProcessor.DrawFractal(
                 request.RealLowerBound,
                 request.Width,
@@ -53,13 +68,14 @@ namespace Mandelbrot.Distributed.Server
                 1 / request.Resolution,
                 request.MaxMagnitude,
                 request.MaxIterations));
-
+            Log.Info($"Calculated mandelbrot set in {stopwatch.ElapsedMilliseconds} ms.");
+            stopwatch.Restart();
+            
             var data = fractal.SelectMany(values => values)
                 .SelectMany(value => BitConverter.GetBytes(value))
                 .ToArray();
-
-            Log.Info("Calculated data:");
-            Log.Info(string.Join(',', data));
+            Log.Info($"Serialized mandelbrot set in {stopwatch.ElapsedMilliseconds} ms.");
+            stopwatch.Stop();
 
             var result = new Result(request, data);
             Log.Info($"Sending result for {result.OriginatingRequest.Id} to client {client.EndPoint.Host}.");

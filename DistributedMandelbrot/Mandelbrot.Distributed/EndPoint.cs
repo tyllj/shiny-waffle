@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -43,7 +45,7 @@ namespace Mandelbrot.Distributed.Server
         public bool IsAvailable
         {
             get { var state = _tcpClient.GetState();
-                Log.Info($"Connection state is {state}");
+                Log.Info($"OS connection state for {Host} is {state}");
                 return state == TcpState.Established; }
         }
 
@@ -61,10 +63,7 @@ namespace Mandelbrot.Distributed.Server
         {
             var buffer = new byte[count];
             await _stream.ReadAsync(buffer, 0, count);
-            //if (!IsAvailable) // NetworkStream reads zero for closed connections.
-            {
-            //    throw new IOException("Connection was closed unexpectedly.");
-            }
+            
             return buffer;
         } 
     }

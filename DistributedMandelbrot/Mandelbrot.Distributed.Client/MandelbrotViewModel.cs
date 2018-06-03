@@ -23,6 +23,7 @@ namespace Mandelbrot.Distributed.Client
         private Server _server;
         private int[][] _cachedData;
         private readonly ImageSource _plotBitmapSource;
+        private Random _random = new Random();
 
         #endregion
         
@@ -36,12 +37,19 @@ namespace Mandelbrot.Distributed.Client
 
         public Stream ProvideBitmap()
         {
-            var bitmap = new Bitmap(480, 320);
-            try
+            
+            var stream = new MemoryStream();
+
+            if (_cachedData != null)
             {
-                for (int x = 0; x < _cachedData[0].Length; x++)
+                var height = _cachedData.Length;
+                var width = _cachedData[0].Length;
+                var bitmap = new Bitmap(width, height);
+                Log.Info("Rendering bitmap");
+
+                for (int x = 0; x < width; x++)
                 {
-                    for (int y = 0; y < _cachedData.Length; y++)
+                    for (int y = 0; y < height; y++)
                     {
                         var c = _cachedData[y][x] == -1
                             ? Color.White
@@ -49,25 +57,11 @@ namespace Mandelbrot.Distributed.Client
                         bitmap.SetPixel(x, y, c);
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-                Debugger.Break();
-            }
 
-            Stream stream = new MemoryStream();
-
-            try
-            {
+                Log.Info("Copying bitmap to output stream");
                 bitmap.Save(stream, ImageFormat.Png);
                 stream.Flush();
                 stream.Position = 0;
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-                Debugger.Break();
             }
 
             return stream;
@@ -115,7 +109,7 @@ namespace Mandelbrot.Distributed.Client
                 _server = new Server("127.0.0.1", 5555);
             
             var request = new Request(
-                0,
+                _random.Next(),
                 CenterX,
                 CenterY,
                 DistanceX,
@@ -124,8 +118,16 @@ namespace Mandelbrot.Distributed.Client
                 MaxIterations,
                 Threshold
                 );
-            await _server.SendRequest(request);
-            _cachedData = await _server.ReceiveResult();
+            try
+            {
+                await _server.SendRequest(request);
+                _cachedData = await _server.ReceiveResult();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                Debugger.Break();
+            }
             ImageLoaded?.Invoke(this, EventArgs.Empty);
         } 
 

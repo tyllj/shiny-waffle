@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Mandelbrot 
@@ -37,6 +38,7 @@ namespace Mandelbrot
             var xDots = (int)Math.Ceiling(rDistance*dotsPerUnit);
             var increment = 1/dotsPerUnit;
             var yValues = new int[yDots][];
+
             Parallel.For(0, yDots, y =>
             //for (var y = 0; y < yDots; y++) 
             {
@@ -51,7 +53,6 @@ namespace Mandelbrot
 
                 yValues[y] = xValues;
             });
-            
             return yValues;
         }        
     }

@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using Mandelbrot.Common;
 using Xamarin.Forms;
+
 
 namespace Mandelbrot.Distributed.Client
 
@@ -17,9 +18,16 @@ namespace Mandelbrot.Distributed.Client
         }
 
         private void ViewModelOnImageLoaded (object sender, EventArgs e)
-        {            
-            
-            _image.Source = ImageSource.FromStream(() => ViewModel.ProvideBitmap());
+        {
+            try
+            {
+                _image.Source = ImageSource.FromStream(() => ViewModel.ProvideBitmap());
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                Debugger.Break();
+            }
 
         }
 

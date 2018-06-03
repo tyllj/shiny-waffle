@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -37,7 +38,9 @@ namespace Mandelbrot.Distributed.Server
         public async Task<Request> ReadRequest()
         {
             var rawRequest = await _endPoint.Receive(52);
-
+            if (rawRequest.All(b => b == 0))
+                throw new InvalidDataException("Received data is zero, assuming remote host disconnected.");
+            
             var request = RequestSerializer.Deserialize(rawRequest);
             return request;
         }
