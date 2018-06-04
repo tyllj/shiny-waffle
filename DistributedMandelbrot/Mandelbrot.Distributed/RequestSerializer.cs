@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace Mandelbrot.Distributed.Server
 {
@@ -49,6 +50,18 @@ namespace Mandelbrot.Distributed.Server
             }
 
             return buffer;
+        }
+
+        private static byte[] FromBigEndian(byte[] buffer, int offset, int size)
+        {
+            byte[] result = new byte[size];
+            Array.ConstrainedCopy(buffer, offset, result, 0, size);
+            if (BitConverter.IsLittleEndian)
+            {
+                return result.Reverse().ToArray();
+            }
+
+            return result;
         }
     }
 }

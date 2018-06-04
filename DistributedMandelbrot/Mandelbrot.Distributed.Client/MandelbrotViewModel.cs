@@ -31,7 +31,7 @@ namespace Mandelbrot.Distributed.Client
 
         public MandelbrotViewModel()
         {
-            RenderCommand = new YaCommand(async _ => await AquireAndPresentMandelbrotSet());
+            RenderCommand = new YaCommand(async _ => await AquireMandelbrotSet());
         }
         
         #endregion
@@ -91,8 +91,8 @@ namespace Mandelbrot.Distributed.Client
                     for (int y = 0; y < height; y++)
                     {
                         var c = _cachedData[y][x] == -1
-                            ? Color.White
-                            : Color.Black;
+                            ? Color.Black
+                            : Color.FromRgb(255 - _cachedData[y][x],0, 255 - _cachedData[y][x]);
                         bitmap.SetPixel(x, y, c);
                     }
                 }
@@ -110,7 +110,7 @@ namespace Mandelbrot.Distributed.Client
 
         #region Non-Public Methods
 
-        private async Task AquireAndPresentMandelbrotSet()
+        private async Task AquireMandelbrotSet()
         {
             if (_server == null)
                 _server = new Server(Host, Port);
