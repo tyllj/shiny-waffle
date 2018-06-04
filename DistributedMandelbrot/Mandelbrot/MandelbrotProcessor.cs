@@ -24,7 +24,7 @@ namespace Mandelbrot
             
         }
 
-        public int[][] DrawFractal(
+        public int[][] ComputeSet(
             double rLowerBound,
             double rDistance,
             double iLowerBound,

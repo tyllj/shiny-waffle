@@ -24,7 +24,9 @@ namespace Mandelbrot.Distributed.Server
             _clientManager.ClientAquired += async (sender, client) => await _requestProcessor.ServeClient(client);
             
             Log.Info("Server is starting, press Ctrl+C to terminate.");
-            await _clientManager.Listen();
+            var listenerTask = Task.Run(() => _clientManager.Listen());
+
+            await listenerTask;
         }
     }
 }

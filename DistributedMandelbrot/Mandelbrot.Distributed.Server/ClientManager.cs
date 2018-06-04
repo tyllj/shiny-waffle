@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Mandelbrot.Common;
 
 namespace Mandelbrot.Distributed.Server
 {
@@ -34,12 +35,20 @@ namespace Mandelbrot.Distributed.Server
         public async Task Listen()
         {
             _listener.Start();
-            for (;;)
+            try
             {
-                var mandelbrotClient = await AquireNext();
-                _clients.Add(mandelbrotClient);
-                ClientAquired?.Invoke(this, mandelbrotClient);
-            }      
+                for(;;)
+                {
+                    var mandelbrotClient = await AquireNext();
+                    Log.Info($"Connection stablished with {mandelbrotClient.EndPoint.Host}.");
+                    _clients.Add(mandelbrotClient);
+                    ClientAquired?.Invoke(this, mandelbrotClient);
+                }
+            }
+            finally
+            {
+                _listener.Stop();
+            }
         }
 
         #endregion

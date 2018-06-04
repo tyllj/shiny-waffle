@@ -46,7 +46,7 @@ namespace Mandelbrot.Distributed.Client
             var stopwatch = Stopwatch.StartNew();
             
             var resultBuffer = await _endPoint.Receive(request.WidthPixels * request.HeightPixels * sizeof(int));
-            Log.Info($"Received result in {stopwatch.ElapsedMilliseconds}.");
+            Log.Info($"Received result in {stopwatch.ElapsedMilliseconds} ms.");
             stopwatch.Restart();
 
             var resultSet = DeserializeResult(request, resultBuffer);

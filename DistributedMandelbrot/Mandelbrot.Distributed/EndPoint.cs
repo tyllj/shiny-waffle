@@ -1,16 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Mandelbrot.Common;
 
 namespace Mandelbrot.Distributed.Server
 {
     public interface IEndPoint
     {
         string Host { get; }
-        bool IsAvailable { get; }
         Task Send(dynamic data);
         Task<byte[]> Receive(int count);
     }
@@ -40,12 +37,6 @@ namespace Mandelbrot.Distributed.Server
         }
 
         public string Host => _tcpClient.Client.RemoteEndPoint.ToString();
-        public bool IsAvailable
-        {
-            get { var state = _tcpClient.GetState();
-                Log.Debug($"OS connection state for {Host} is {state}");
-                return state == TcpState.Established; }
-        }
 
         public virtual async Task Send(dynamic data)
         {
@@ -54,7 +45,6 @@ namespace Mandelbrot.Distributed.Server
                 _writer.Write(data);
                 _writer.Flush();
             });
-            if (IsAvailable);
         }
 
         public virtual async Task<byte[]> Receive(int count = 1)
@@ -66,7 +56,7 @@ namespace Mandelbrot.Distributed.Server
                 var read = await _stream.ReadAsync(buffer, readSoFar, count - readSoFar);
                 readSoFar += read;
                 if (read == 0)
-                    throw new IOException("Read zero bytes.");
+                    throw new IOException("Read zero bytes, assuming connection is closed.");
             }
             
             return buffer;

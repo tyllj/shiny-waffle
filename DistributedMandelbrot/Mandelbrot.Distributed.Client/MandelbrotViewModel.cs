@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,7 +12,6 @@ using Mandelbrot.Common.Gui;
 using Mandelbrot.Distributed.Client.Annotations;
 using Mandelbrot.Distributed.Server;
 using Mandelbrot.Offline;
-using Xamarin.Forms;
 using Color = Xamarin.Forms.Color;
 
 namespace Mandelbrot.Distributed.Client

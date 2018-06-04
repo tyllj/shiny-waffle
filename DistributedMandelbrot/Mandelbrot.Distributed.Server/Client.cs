@@ -1,12 +1,11 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Mandelbrot.Common;
 
 namespace Mandelbrot.Distributed.Server
 {
-    public class Client 
+    public class Client : IDisposable
     {
         #region Private Fields
 
@@ -36,8 +35,6 @@ namespace Mandelbrot.Distributed.Server
         {
             var rawRequest = await _endPoint.Receive(52);
             Log.Info($"Data received from {_endPoint.Host}");
-            if (rawRequest.All(b => b == 0))
-                throw new InvalidDataException("Received data is zero, assuming remote host disconnected.");
             var request = RequestSerializer.Deserialize(rawRequest);
             return request;
         }
@@ -49,5 +46,10 @@ namespace Mandelbrot.Distributed.Server
         }
         
         #endregion
+
+        public void Dispose()
+        {
+            _endPoint?.Dispose();
+        }
     }
 }
