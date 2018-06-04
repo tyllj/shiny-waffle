@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ using Mandelbrot.Common;
 using Mandelbrot.Common.Gui;
 using Mandelbrot.Distributed.Client.Annotations;
 using Mandelbrot.Distributed.Server;
+using Mandelbrot.Offline;
 using Xamarin.Forms;
 using Color = Xamarin.Forms.Color;
 
@@ -20,10 +22,9 @@ namespace Mandelbrot.Distributed.Client
     {
         #region Private Fields
 
-        private Server _server;
+
         private int[][] _cachedData;
-        private readonly ImageSource _plotBitmapSource;
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
 
         #endregion
         
@@ -91,9 +92,9 @@ namespace Mandelbrot.Distributed.Client
                     for (int y = 0; y < height; y++)
                     {
                         var c = _cachedData[y][x] == -1
-                            ? Color.Black
-                            : Color.FromRgb(255 - _cachedData[y][x],0, 255 - _cachedData[y][x]);
-                        bitmap.SetPixel(x, y, c);
+                            ? 0
+                            : BitmapFormatter.RescaleValue(_cachedData[y][x], MaxIterations);
+                        bitmap.SetPixel(x, y, Color.FromRgb(c,c,c));
                     }
                 }
 
@@ -112,30 +113,31 @@ namespace Mandelbrot.Distributed.Client
 
         private async Task AquireMandelbrotSet()
         {
-            if (_server == null)
-                _server = new Server(Host, Port);
-            
-            var request = new Request(
-                _random.Next(),
-                CenterX,
-                CenterY,
-                DistanceX,
-                DistanceY,
-                Resolution,
-                MaxIterations,
-                Threshold
+            using (var server = new Server(Host, Port))
+            {
+                var request = new Request(
+                    _random.Next(),
+                    CenterX,
+                    CenterY,
+                    DistanceX,
+                    DistanceY,
+                    Resolution,
+                    MaxIterations,
+                    Threshold
                 );
-            try
-            {
-                await _server.SendRequest(request);
-                _cachedData = await _server.ReceiveResult();
+                try
+                {
+                    await server.SendRequest(request);
+                    _cachedData = await server.ReceiveResult();
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    Debugger.Break();
+                }
+
+                ResultReady?.Invoke(this, EventArgs.Empty);
             }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-                Debugger.Break();
-            }
-            ResultReady?.Invoke(this, EventArgs.Empty);
         } 
 
         #endregion

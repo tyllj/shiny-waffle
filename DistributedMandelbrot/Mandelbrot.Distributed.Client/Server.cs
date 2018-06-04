@@ -8,7 +8,10 @@ using Mandelbrot.Distributed.Server;
 
 namespace Mandelbrot.Distributed.Client
 {
-    public class Server
+    /// <summary>
+    /// Provides means of interaction with a Mandelbrot server. 
+    /// </summary>
+    public class Server : IDisposable
     {
         #region Private fields
 
@@ -31,24 +34,32 @@ namespace Mandelbrot.Distributed.Client
 
         public async Task<int[][]> ReceiveResult()
         {
-            
-            
             var requestId = BitConverter.ToInt32(await _endPoint.Receive(sizeof(int)), 0);
             var request = _pendingRequests.FirstOrDefault(r => r.Id == requestId);
             if (request is null)
             {
                 throw new IndexOutOfRangeException($"Request with id {requestId} cannot be resolved.");
             }
-            Log.Info("Receiving begin.");
-
-            var resultSize = request.WidthPixels * request.HeightPixels * sizeof(int);
-            Log.Debug($"Expect {resultSize} bytes");
-            var resultBuffer = await _endPoint.Receive(request.WidthPixels * request.HeightPixels * sizeof(int));
-            Log.Info("Receiving end.");
-            var resultSet = new int[request.HeightPixels][];
+            
+            var resultSize = request.ResultPixelCount * sizeof(int);
+            Log.Debug($"Receiving, expect {resultSize} bytes");
             var stopwatch = Stopwatch.StartNew();
-                                                      //length of row in buffer
-            int IndexInRawBuffer(int x, int y) => y * (request.WidthPixels * sizeof(int)) + x * sizeof(int);
+            
+            var resultBuffer = await _endPoint.Receive(request.WidthPixels * request.HeightPixels * sizeof(int));
+            Log.Info($"Received result in {stopwatch.ElapsedMilliseconds}.");
+            stopwatch.Restart();
+
+            var resultSet = DeserializeResult(request, resultBuffer);
+            Log.Info($"Deserialized result in {stopwatch.ElapsedMilliseconds} ms.");
+            stopwatch.Stop();
+            
+            return resultSet;
+        }
+
+        private static int[][] DeserializeResult(Request request,byte[] resultBuffer)
+        {
+            var resultSet = new int[request.HeightPixels][];
+            int IndexInRawBuffer(int x, int y) => y * request.WidthPixels * sizeof(int) + x * sizeof(int);
             for (var y = 0; y < resultSet.Length; y++)
             {
                 resultSet[y] = new int[request.WidthPixels];
@@ -65,13 +76,13 @@ namespace Mandelbrot.Distributed.Client
                     }
                 }
             }
-            stopwatch.Stop();
-            Log.Info($"Deserialized result in {stopwatch.ElapsedMilliseconds} ms.");
 
             return resultSet;
         }
 
-        
-
+        public void Dispose()
+        {
+            _endPoint?.Dispose();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Mandelbrot.Distributed.Server
         Task<byte[]> Receive(int count);
     }
 
-    public class EndPoint : IEndPoint
+    public class EndPoint : IEndPoint, IDisposable
     {
         #region Private Fields
 
@@ -69,7 +70,14 @@ namespace Mandelbrot.Distributed.Server
             }
             
             return buffer;
-        } 
+        }
+
+        public void Dispose()
+        {
+            _tcpClient?.Dispose();
+            _stream?.Dispose();
+            _writer?.Dispose();
+        }
     }
     
     

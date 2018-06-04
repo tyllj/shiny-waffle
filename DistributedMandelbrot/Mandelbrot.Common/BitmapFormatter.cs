@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -18,13 +19,18 @@ namespace Mandelbrot.Offline {
             data.AddRange(
                 intGrid.SelectMany(
                 rows => rows.Select(v => v == -1 ? PGM_MINVALUE
-                                                 : RescaleInverted(valueScale, v))));
+                                                 : RescaleInverted(v, valueScale))));
             return data.ToArray();
         }
 
-        private static byte RescaleInverted(int valueScale, int value)
+        public static byte RescaleValue(int value, int valueScale)
         {
-            return (byte) (PGM_MAXVALUE - (double)value / valueScale * PGM_MAXVALUE);
+            return (byte) ((double) value / valueScale * PGM_MAXVALUE);
+        }
+        
+        public static byte RescaleInverted(int value, int valueScale)
+        {
+            return (byte) (PGM_MAXVALUE - RescaleValue(value, valueScale));
         }
     }
 }

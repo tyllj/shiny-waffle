@@ -60,7 +60,7 @@ namespace Mandelbrot.Distributed.Server
             }
             
             Log.Info($"Request received from {client.EndPoint.Host}: Id: {request.Id}, R: {request.RealCenter}, I: {request.ImaginaryCenter}");
-            Log.Info($"Will send {request.Height * request.Width * sizeof(int)}");
+            Log.Info($"Will send {request.HeightPixels * request.WidthPixels * sizeof(int)} bytes.");
             var stopwatch = Stopwatch.StartNew();
             var fractal = await Task.Run(() => _mandelbrotProcessor.DrawFractal(
                 request.RealLowerBound,

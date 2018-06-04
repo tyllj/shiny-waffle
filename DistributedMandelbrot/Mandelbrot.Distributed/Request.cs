@@ -44,9 +44,11 @@ namespace Mandelbrot.Distributed.Server
         
         public int WidthPixels => (int)Math.Ceiling(Width * (1.0/ Resolution));
         public int HeightPixels => (int)Math.Ceiling(Height * (1.0 / Resolution));
-        
+
+        public int ResultPixelCount => WidthPixels * HeightPixels;
+
         #endregion
-        
+
 
     }
 }
