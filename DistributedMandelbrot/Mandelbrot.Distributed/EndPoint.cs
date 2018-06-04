@@ -59,7 +59,14 @@ namespace Mandelbrot.Distributed.Server
         public virtual async Task<byte[]> Receive(int count = 1)
         {
             var buffer = new byte[count];
-            await _stream.ReadAsync(buffer, 0, count);
+            int readSoFar = 0;
+            while(readSoFar < count)
+            {
+                var read = await _stream.ReadAsync(buffer, readSoFar, count - readSoFar);
+                readSoFar += read;
+                if (read == 0)
+                    throw new IOException("Read zero bytes.");
+            }
             
             return buffer;
         } 

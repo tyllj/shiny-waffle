@@ -11,7 +11,7 @@ namespace Mandelbrot.Common
         
         public static void Debug(string message)
         {
-            Console.WriteLine($"[Debug]  {DateTime.Now.ToShortTimeString()} - {message}");
+            Console.WriteLine($"[Debug] {DateTime.Now.ToShortTimeString()} - {message}");
         }
         
         public static void Warn(string message)

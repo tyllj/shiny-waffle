@@ -40,6 +40,9 @@ namespace Mandelbrot.Distributed.Client
                 throw new IndexOutOfRangeException($"Request with id {requestId} cannot be resolved.");
             }
             Log.Info("Receiving begin.");
+
+            var resultSize = request.WidthPixels * request.HeightPixels * sizeof(int);
+            Log.Debug($"Expect {resultSize} bytes");
             var resultBuffer = await _endPoint.Receive(request.WidthPixels * request.HeightPixels * sizeof(int));
             Log.Info("Receiving end.");
             var resultSet = new int[request.HeightPixels][];
