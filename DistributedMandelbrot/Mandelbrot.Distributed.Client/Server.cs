@@ -34,7 +34,7 @@ namespace Mandelbrot.Distributed.Client
 
         public async Task<int[][]> ReceiveResult()
         {
-            var requestId = BitConverter.ToInt32(await _endPoint.Receive(sizeof(int)), 0);
+            var requestId = BitConverter.ToInt32(RequestSerializer.FromNetEncoding(await _endPoint.Receive(sizeof(int)), 0, sizeof(int)), 0);
             var request = _pendingRequests.FirstOrDefault(r => r.Id == requestId);
             if (request is null)
             {
@@ -67,7 +67,7 @@ namespace Mandelbrot.Distributed.Client
                 {
                     try
                     {
-                        var value = BitConverter.ToInt32(resultBuffer, IndexInRawBuffer(x, y));
+                        var value = BitConverter.ToInt32(RequestSerializer.FromNetEncoding(resultBuffer, IndexInRawBuffer(x, y), sizeof(int)), 0);
                         resultSet[y][x] = value;
                     }
                     catch (Exception e)
