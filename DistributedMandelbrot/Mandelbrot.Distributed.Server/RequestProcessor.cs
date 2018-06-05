@@ -74,7 +74,7 @@ namespace Mandelbrot.Distributed.Server
             stopwatch.Restart();
             
             var data = fractal.SelectMany(values => values)
-                .SelectMany(value => RequestSerializer.ToNetEncoding(value))
+                .SelectMany(value => EndianConverter.ToNetEncoding(value))
                 .ToArray();
             Log.Info($"Serialized mandelbrot set in {stopwatch.ElapsedMilliseconds} ms.");
             stopwatch.Stop();

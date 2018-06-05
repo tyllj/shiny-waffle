@@ -17,7 +17,7 @@ namespace Mandelbrot
                 z = z * z + c;
                 if (z > magnitudeThreshold)
                 {
-                    return i;
+                    return maxIterations - i;
                 }
             }
             return -1;

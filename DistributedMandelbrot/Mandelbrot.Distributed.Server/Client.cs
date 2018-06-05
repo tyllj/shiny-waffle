@@ -41,7 +41,7 @@ namespace Mandelbrot.Distributed.Server
 
         public async Task SendResult(Result result)
         {
-            await _endPoint.Send(RequestSerializer.ToNetEncoding(result.OriginatingRequest.Id));
+            await _endPoint.Send(EndianConverter.ToNetEncoding(result.OriginatingRequest.Id));
             await _endPoint.Send(result.Data);
         }
         
