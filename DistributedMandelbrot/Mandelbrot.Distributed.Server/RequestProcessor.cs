@@ -72,7 +72,7 @@ namespace Mandelbrot.Distributed.Server
                 request.MaxIterations));
             Log.Info($"Calculated mandelbrot set in {stopwatch.ElapsedMilliseconds} ms.");
             stopwatch.Restart();
-            
+
             var data = fractal.SelectMany(values => values)
                 .SelectMany(value => EndianConverter.ToNetEncoding(value))
                 .ToArray();

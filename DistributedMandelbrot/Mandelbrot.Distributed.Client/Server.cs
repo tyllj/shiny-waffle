@@ -61,21 +61,19 @@ namespace Mandelbrot.Distributed.Client
             var resultSet = new int[request.HeightPixels][];
             int IndexInRawBuffer(int x, int y) => y * request.WidthPixels * sizeof(int) + x * sizeof(int);
             for (var y = 0; y < resultSet.Length; y++)
+            //Parallel.For(0, resultSet.Length, y =>
             {
                 resultSet[y] = new int[request.WidthPixels];
                 for (var x = 0; x < resultSet[y].Length; x++)
+                //Parallel.For(0, resultSet[y].Length, x =>
                 {
-                    try
-                    {
-                        var value = BitConverter.ToInt32(EndianConverter.FromNetEncoding(resultBuffer, IndexInRawBuffer(x, y), sizeof(int)), 0);
-                        resultSet[y][x] = value;
-                    }
-                    catch (Exception e)
-                    {
-                        Debugger.Break();
-                    }
-                }
-            }
+
+                    var value = BitConverter.ToInt32(
+                        EndianConverter.FromNetEncoding(resultBuffer, IndexInRawBuffer(x, y), sizeof(int)), 0);
+                    resultSet[y][x] = value;
+
+                }//);
+            }//);
 
             return resultSet;
         }
