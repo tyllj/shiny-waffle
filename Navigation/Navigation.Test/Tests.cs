@@ -8,9 +8,9 @@ namespace Navigation.Test
     public class Tests
     {
         [Test]
-        public void RouterTest()
+        public void BasicRouterTest()
         {
-            var router = new Router(new XmlMapParser(@"/media/tyll/personal/DEV/Navigation/Navigation/daten_hl_altstadt_routenplaner_koordinaten.xml"));
+            var router = new Router(new XmlMapParser(@"/media/tyll/personal/DEV/shiny-waffle/Navigation/Navigation/daten_hl_altstadt_routenplaner_koordinaten.xml"));
             var route = router.FindRoute(1, 15);
             foreach (var node in route)
             {

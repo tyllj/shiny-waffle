@@ -1,19 +1,16 @@
-﻿using System;
-using System.Dynamic;
-using Autofac;
-using Autofac.Core;
-using Navigation.App;
+﻿using Autofac;
+using Navigation.App.Views;
 using Navigation.Routing;
 
-namespace Navigation
+namespace Navigation.App
 {
     public class Bootstrapper
     {
         private const string MAP_XML_PATH =
-            @"/media/tyll/personal/DEV/Navigation/Navigation/daten_hl_altstadt_routenplaner_koordinaten.xml";
+            @"/media/tyll/personal/DEV/shiny-waffle/Navigation/Navigation/daten_hl_altstadt_routenplaner_koordinaten.xml";
         
         private static Bootstrapper _instance;
-        private IContainer _container;
+        private readonly IContainer _container;
         
         public static Bootstrapper Create()
         {
@@ -37,9 +34,9 @@ namespace Navigation
         {
             builder.RegisterType<MainPage>();
             builder.RegisterType<XmlMapParser>()
-                .As<IMapProvider>()
                 .WithParameter((p, c) => p.Name == "filePath",
-                    (p, c) => MAP_XML_PATH);
+                               (p, c) => MAP_XML_PATH)
+                .As<IMapProvider>();
             builder.RegisterType<Router>()
                 .As<IRouter>();
             builder.RegisterType<MapViewModel>();

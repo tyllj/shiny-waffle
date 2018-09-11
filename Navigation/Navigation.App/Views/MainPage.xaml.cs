@@ -1,7 +1,6 @@
 using Xamarin.Forms;
 
-
-namespace Navigation.App
+namespace Navigation.App.Views
 {
     public partial class MainPage : ContentPage
     {
