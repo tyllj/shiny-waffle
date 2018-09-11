@@ -10,7 +10,8 @@ namespace Navigation.App
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            var appContext = Bootstrapper.Create();
+            MainPage = appContext.GetMainPage();
         }
 
         protected override void OnStart()

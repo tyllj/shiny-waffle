@@ -1,4 +1,5 @@
 ﻿using System;
+using Navigation.Routing;
 using NUnit.Framework;
 
 namespace Navigation.Test
@@ -9,8 +10,8 @@ namespace Navigation.Test
         [Test]
         public void RouterTest()
         {
-            var router = new Router(new XmlMapParser());
-            var route = router.FindRoute(1, 127);
+            var router = new Router(new XmlMapParser(@"/media/tyll/personal/DEV/Navigation/Navigation/daten_hl_altstadt_routenplaner_koordinaten.xml"));
+            var route = router.FindRoute(1, 15);
             foreach (var node in route)
             {
                 TestContext.WriteLine(node.Name);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Navigation;
 using System.Drawing;
 using System.Linq;
+using Navigation.Entities;
 
 namespace Navigation.App
 {

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Navigation.Entities;
 
-namespace Navigation
+namespace Navigation.Routing
 {
     public class Router : IRouter
     {

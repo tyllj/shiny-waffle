@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Navigation.Entities;
 
 namespace Navigation
 {
@@ -14,28 +15,29 @@ namespace Navigation
     
     public class XmlMapParser : IMapProvider
     {
-        private IList<Node> _map;
+        private string _filepath;
+        private IList<Node> _cachedNodes;
 
-        public XmlMapParser()
+        public XmlMapParser(string filePath)
         {
-            _map = ReadMap();
+            _filepath = filePath;
+            _cachedNodes = ReadMap();
         }
 
         public IList<Node> GetAllNodes()
         {
-            return _map;
+            return _cachedNodes;
         }
         
         public Node GetNode(int id)
         {
-            return _map.Single(node => node.Id == id);
+            return _cachedNodes.Single(node => node.Id == id);
         }
 
-        private static IList<Node> ReadMap()
+        private IList<Node> ReadMap()
         {
             var serializer = new XmlSerializer(typeof(List<Node>), new XmlRootAttribute("nodes"));
-            using (var xmlStream =
-                File.OpenText(@"/media/tyll/personal/DEV/Navigation/Navigation/daten_hl_altstadt_routenplaner_koordinaten.xml"))
+            using (var xmlStream = File.OpenText(_filepath))
             {
                 return (IList<Node>) serializer.Deserialize(xmlStream);
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Navigation.Entities;
 
-namespace Navigation
+namespace Navigation.Routing
 {
     public interface IRouter
     {
