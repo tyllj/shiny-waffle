@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage x:Class="Navigation.App.MainPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:a="clr-namespace:Xamarin.Forms.Alias;assembly=Xamarin.Forms.Alias"
+             Padding="10"
+             Title="Navigation">
+    <ContentPage.Resources>
+        <!-- ReSharper disable Xaml.RedundantResource -->
+        <!-- ReSharper restore Xaml.RedundantResource -->
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <FlexLayout
+            Grid.Row="0"
+            Wrap="Wrap"
+            AlignItems="Center"
+            AlignSelf="Start"
+            AlignContent="Start">
+
+        </FlexLayout>
+
+    </Grid>
+</ContentPage>
