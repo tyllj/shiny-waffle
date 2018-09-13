@@ -1,18 +1,25 @@
+using System;
 using Xamarin.Forms;
 
 namespace Navigation.App.Views
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage(MapViewModel mapViewModel)
+        public MainPage(MainWindowViewModel mainWindowViewModel)
         {
-            ViewModel = mapViewModel;
+            ViewModel = mainWindowViewModel;
             BindingContext = ViewModel;
-            InitializeComponent();
+            ViewModel.MapChanged += (_,__) => UpdateMap();
             
-            ViewModel.RenderCommand.Execute(_resultView);
+            InitializeComponent();
+            UpdateMap();
         }
-        
-        public MapViewModel ViewModel { get; }
+
+        private void UpdateMap()
+        {
+            _resultView.Source = ImageSource.FromStream(() => ViewModel.DrawMap());
+        }
+
+        public MainWindowViewModel ViewModel { get; }
     }
 }

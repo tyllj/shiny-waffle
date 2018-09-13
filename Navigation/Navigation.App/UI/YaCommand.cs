@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Navigation.App
+namespace Navigation.App.UI
 {
     /// <summary>
     /// Yet another command implementation.

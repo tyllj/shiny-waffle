@@ -42,7 +42,7 @@ namespace Navigation.App
                 .As<IRouter>();
             builder.RegisterType<MapRenderer>()
                 .As<IMapRenderer>();
-            builder.RegisterType<MapViewModel>();
+            builder.RegisterType<MainWindowViewModel>();
         }
         
 

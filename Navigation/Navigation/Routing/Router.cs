@@ -6,11 +6,11 @@ namespace Navigation.Routing
 {
     public class Router : IRouter
     {
-        private IList<Node> _map;
-        
+        private IMapProvider _mapProvider;
+
         public Router(IMapProvider mapProvider)
         {
-            _map = mapProvider.GetAllNodes();
+            _mapProvider = mapProvider;
         }
         
         public IReadOnlyList<Node> FindRoute(int startNodeId, int endNodeId)
@@ -19,7 +19,7 @@ namespace Navigation.Routing
 
             // Walk the shortest path backwards
             var path = new List<Node>();
-            var reachedNode = GetNode(endNodeId);
+            var reachedNode = _mapProvider.GetNode(endNodeId);
             do
             {
                 path.Add(reachedNode);
@@ -31,44 +31,48 @@ namespace Navigation.Routing
 
         }
 
+        /// <summary>
+        /// Returns a dictionary where each Key is a Node on the map with its closest predecessor as value.
+        /// </summary>
         private Dictionary<Node, Node> FindAllPaths(int startNodeId)
         {
-            Node startNode = GetNode(startNodeId);
+            Node startNode = _mapProvider.GetNode(startNodeId);
             
             // Initialize sets ready for walking
             var queue = new List<Node>() {startNode};
             var distances = new Dictionary<Node, int>() {{startNode, 0}};
             var predecessors = new Dictionary<Node, Node>();
-            var unvisited = _map.Except(new [] {startNode}).ToList();
+            
+            var unvisited = _mapProvider.GetAllNodes()
+                                        .Except(new [] {startNode}).ToList();
             
             IEnumerable<Edge> GetUnvisitedEdges(Node node) =>
                 node.Edges
-                    .OrderBy(edge => edge.Distance)
                     .Where(edge => unvisited.Any(visitedNode => edge.EndNode == visitedNode.Id));
+
+            Node GetNearestNodeInQueue() => queue.OrderBy(node => distances[node])
+                                                 .First();
 
             while (queue.Any())
             {
-                var currentNode = queue.First();
-
+                var currentNode = GetNearestNodeInQueue();
+                queue.Remove(currentNode);
+                
                 var currentDistance = distances[currentNode];
                 var unvisitedEdges = GetUnvisitedEdges(currentNode);
                 foreach (var edge in unvisitedEdges)
                 {
-                    var unvisitedEndPoint = GetNode(edge.EndNode);
-                    
+                    var unvisitedEndPoint = _mapProvider.GetNode(edge.EndNode);
+
                     queue.Add(unvisitedEndPoint);
                     distances.Add(unvisitedEndPoint, currentDistance + edge.Distance);
                     predecessors.Add(unvisitedEndPoint, currentNode);
-                    
+
                     unvisited.Remove(unvisitedEndPoint);
                 }
-
-                queue.Remove(currentNode);
             }
 
             return predecessors;
         }
-
-        private Node GetNode(int id) => _map.Single(node => node.Id == id);
     }
 }

@@ -19,5 +19,10 @@ namespace Navigation.Entities
         
         [XmlArray("edges")]
         public List<Edge> Edges { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

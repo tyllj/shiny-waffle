@@ -11,18 +11,18 @@
         <!-- ReSharper restore Xaml.RedundantResource -->
     </ContentPage.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <FlexLayout
-            Grid.Row="0"
-            Wrap="Wrap"
-            AlignItems="Center"
-            AlignSelf="Start"
-            AlignContent="Start">
-            <a:Button Text="Render"  Command="{Binding RenderCommand}" CommandParameter="{Reference _resultView}"/>
-        </FlexLayout>
-        <Image Grid.Row="1" x:Name="_resultView"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <a:StackPanel
+            Grid.Column="0">
+            <a:TextBlock Text="From:"/>
+            <a:ComboBox ItemsSource="{Binding Places}" SelectedItem="{Binding Start}"/>
+            <a:TextBlock Text="To:"/>
+            <a:ComboBox ItemsSource="{Binding Places}" SelectedItem="{Binding Destination}"/>
+            <a:Button Text="Plan trip"  Command="{Binding PlanTripCommand}" CommandParameter="{Reference _resultView}"/>
+        </a:StackPanel>
+        <Image Grid.Column="1" x:Name="_resultView"/>
     </Grid>
 </ContentPage>
