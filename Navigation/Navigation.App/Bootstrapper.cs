@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Navigation.App.Graphics;
 using Navigation.App.Views;
 using Navigation.Routing;
 
@@ -39,6 +40,8 @@ namespace Navigation.App
                 .As<IMapProvider>();
             builder.RegisterType<Router>()
                 .As<IRouter>();
+            builder.RegisterType<MapRenderer>()
+                .As<IMapRenderer>();
             builder.RegisterType<MapViewModel>();
         }
         

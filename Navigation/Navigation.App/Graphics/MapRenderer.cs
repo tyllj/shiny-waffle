@@ -13,13 +13,14 @@ namespace Navigation.App.Graphics
     public interface IMapRenderer
     {
         ICollection<NodeToNodeEdge> HighlightedEdges { get; }
+        Stream Render();
     }
     
-    public class MapRenderer
+    public class MapRenderer : IMapRenderer
     {
         #region constants
         
-        private const double SCALING_FACTOR = 1.0;
+        private const float SCALING_FACTOR = 45000;
         
         #endregion
         
@@ -34,8 +35,8 @@ namespace Navigation.App.Graphics
         public MapRenderer(IMapProvider mapProvider)
         {
             _mapProvider = mapProvider;
-            _xOffset = GetXOffset();
-            _yOffset = GetYOffset();
+            _xOffset = GetMinLatitude() - 10f/SCALING_FACTOR;
+            _yOffset = GetMinLongitude() - 10f/SCALING_FACTOR;
             
             HighlightedEdges = new List<NodeToNodeEdge>();
         }
@@ -45,19 +46,21 @@ namespace Navigation.App.Graphics
         public ICollection<NodeToNodeEdge> HighlightedEdges { get; }
 
         #endregion
-
-        #region private methods
-
+        
+        #region public methods
+        
         public Stream Render()
         {
             var outputStream = new MemoryStream();
             using (var bitmap = new Bitmap(1080, 720))
             {
-
                 using (var canvas = Drawing.Graphics.FromImage(bitmap))
                 {
                     var distinctEdges = GetDistinctEdges();
-                    var regularPen = new Pen(Color.Gray, 4.0f);
+                    var regularPen = new Pen(Color.White, 4f);
+                    var highlightingPen = new Pen(Color.RoyalBlue, 4f);
+                    
+                    canvas.FillRectangle(new SolidBrush(Color.Salmon), 0, 0, 1080, 720);
 
                     foreach (var edge in distinctEdges)
                     {
@@ -66,8 +69,11 @@ namespace Navigation.App.Graphics
 
                         var end1 = GetPointOfNode(node1);
                         var end2 = GetPointOfNode(node2);
-
-                        canvas.DrawLine(regularPen, end1, end2);
+                        
+                        if (IsHighlightedEdge(edge))
+                            canvas.DrawLine(highlightingPen, end1, end2);
+                        else
+                            canvas.DrawLine(regularPen, end1, end2);
                     }
 
                     canvas.Save();
@@ -79,6 +85,10 @@ namespace Navigation.App.Graphics
 
             return outputStream;
         }
+        
+        #endregion
+
+        #region private methods
 
         private IEnumerable<NodeToNodeEdge> GetDistinctEdges()
         {
@@ -97,21 +107,26 @@ namespace Navigation.App.Graphics
 
             return distinctEdges;
         }
+
+        private bool IsHighlightedEdge(NodeToNodeEdge edge)
+        {
+            return HighlightedEdges.Any(he => he.Equals(edge));
+        }
         
         private PointF GetPointOfNode(Node node)
         {
-            var x = (node.Coordinates.Latitude - _xOffset) * 1000;
-            var y = (node.Coordinates.Longitude - _yOffset) * 1000;
+            var x = (node.Coordinates.Latitude - _xOffset) * SCALING_FACTOR;
+            var y = (node.Coordinates.Longitude - _yOffset) * SCALING_FACTOR;
             return new PointF(x,y);
         }
     
-        private float GetYOffset()
+        private float GetMinLongitude()
         {
             return _mapProvider.GetAllNodes()
                 .Min(node => node.Coordinates.Longitude);
         }
 
-        private float GetXOffset()
+        private float GetMinLatitude()
         {
             return _mapProvider.GetAllNodes()
                 .Min(node => node.Coordinates.Latitude);

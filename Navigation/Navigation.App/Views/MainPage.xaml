@@ -4,7 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:a="clr-namespace:Xamarin.Forms.Alias;assembly=Xamarin.Forms.Alias"
              Padding="10"
-             Title="Navigation">
+             Title="Navigation"
+             BackgroundColor="White">
     <ContentPage.Resources>
         <!-- ReSharper disable Xaml.RedundantResource -->
         <!-- ReSharper restore Xaml.RedundantResource -->
@@ -20,8 +21,8 @@
             AlignItems="Center"
             AlignSelf="Start"
             AlignContent="Start">
-
+            <a:Button Text="Render"  Command="{Binding RenderCommand}" CommandParameter="{Reference _resultView}"/>
         </FlexLayout>
-
+        <Image Grid.Row="1" x:Name="_resultView"/>
     </Grid>
 </ContentPage>
